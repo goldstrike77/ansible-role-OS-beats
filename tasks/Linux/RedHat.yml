@@ -20,6 +20,9 @@
     - '{{ beats_type }}beat-{{ beats_version }}*'
   register: beats_update
 
+- name: Clean the Beats metadata
+  command: 'yum clean all'
+
 - name: 'Remove Beat {{ beats_version.split(".")[0] }} YUM repositories'
   yum_repository:
     name: '{{ beats_repo_name }}'

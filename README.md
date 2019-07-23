@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/Ansible-filebeat-green.svg?logo=angular&style=for-the-badge)
+![](https://img.shields.io/badge/Ansible-beats-green.svg?logo=angular&style=for-the-badge)
 
 >__Please note that the original design goal of this role was more concerned with the initial installation and bootstrapping environment, which currently does not involve performing continuous maintenance, and therefore are only suitable for testing and development purposes,  should not be used in production environments.__
 
@@ -12,7 +12,7 @@ __Table of Contents__
 - [Overview](#overview)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
-  * [Filebeat Versions](#filebeat-versions)
+  * [Beats Versions](#beats-versions)
 - [ Role variables](#Role-variables)
   * [Main Configuration](#Main-parameters)
   * [Other Configuration](#Other-parameters)
@@ -26,7 +26,7 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs Filebeat on operating system, including establishing a filesystem structure and server configuration with some common operational features.
+This Ansible role installs elastic Beats on operating system, including establishing a filesystem structure and server configuration with some common operational features.
 
 ## Requirements
 ### Operating systems
@@ -34,24 +34,31 @@ This role will work on the following operating systems:
 
   * CentOS 7
 
-### Filebeat versions
+### Beats versions
 
-The following list of supported the Filebeat releases:
+The following list of supported the Beats releases:
 
-* Filebeat 6.8+, 7.1+
+* Beats 6.8+, 7.1+
 
 ## Role variables
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
 
 ##### General parameters
-* `filebeat_version`: Specify the Filebeat version.
-* `filebeat_selinux`: SELinux security policy.
+* `beats_version`: Specify the Beats.
+* `beats_type`: Which kinds of beats are installs.
+* `beats_selinux`: SELinux security policy.
+
+##### Filebeat parameters
 * `filebeat_configset`: Specific configuration set by instances of this.
 * `filebeat_configver`: Specific configuration set versions.
 
+##### Auditbeat parameters
+* `auditbeat_audit_rules`: Specific audit rules list.
+
 ##### Listen port
-* `filebeat_port_arg`: list of service port.
+* `beats_port_arg.http`: Port for Beats http.
+* `beats_port_arg.exporter`: Port for prometheus exporter.
 
 ##### Service Mesh
 * `environments`: Define the service environment.
@@ -60,12 +67,13 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_public_http_port`: The consul HTTP API port.
 * `consul_public_clients`: List of public consul clients.
 
-##### Elasticsearch Variables
-* `filebeat_elastic_hosts`: List of Elasticsearch hosts Filebeat should connect to.
-* `filebeat_elastic_port_rest`: Elasticsearch REST port.
-* `filebeat_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
-* `filebeat_elastic_pass`: Elasticsearch authenticated password.
-* `filebeat_elastic_user`: Elasticsearch authenticated user.
+##### Output Variables
+* `beats_output_type`: Configure what output to use when sending the data collected by the Beats.
+* `beats_output_host`: The list of known servers to connect to.
+* `beats_output_port`: Servers communication port.
+* `beats_output_auth`: A boolean value, Enable or Disable authentication.
+* `beats_output_pass`: Authenticated password.
+* `beats_output_user`: Authenticated user.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -78,32 +86,34 @@ There are no dependencies on other roles.
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' filebeat_version='6.8.1'
+    node01 ansible_host='192.168.1.10' beats_version='6.8.1'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: all
       roles:
-         - role: ansible-role-OS-filebeat
-           filebeat_version: '6.8.1'
+         - role: ansible-role-OS-beats
+           beats_version: '6.8.1'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    filebeat_version: '6.8.1'
-    filebeat_selinux: false
+    beats_version: '7.1.1'
+    beats_type: 'file'
+    beats_selinux: false
     filebeat_configset: 'wazuh'
-    filebeat_configver: '3.9.2'
-    filebeat_port_arg:
+    filebeat_configver: '3.9.3'
+    beats_port_arg:
       http: '5066'
       exporter: '9479'
-    filebeat_elastic_hosts:
+    beats_output_type: 'elasticsearch'
+    beats_output_host:
       - '127.0.0.1'
-    filebeat_elastic_port_rest: '9200'
-    filebeat_elastic_auth: true
-    filebeat_elastic_pass: 'password'
-    filebeat_elastic_user: 'elastic'
+    beats_output_port: '9200'
+    beats_output_auth: false
+    beats_output_pass: 'password'
+    beats_output_user: 'elastic'
     environments: 'SIT'
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'

@@ -10,12 +10,14 @@
 
 - name: Install the Beat packages
   yum:
-    name: '{{ beats_type }}beat-{{ beats_version }}*'
+    name: '{{ item }}'
     state: 'present'
-    enablerepo: '{{ beats_repo_name }}'
     validate_certs: 'no'
     update_cache: 'yes'
     disable_gpg_check: 'yes'
+  loop:
+    - 'policycoreutils-python'
+    - '{{ beats_type }}beat-{{ beats_version }}*'
   register: beats_update
 
 - name: 'Remove Beat {{ beats_version.split(".")[0] }} YUM repositories'

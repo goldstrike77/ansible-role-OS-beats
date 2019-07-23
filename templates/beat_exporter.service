@@ -1,0 +1,17 @@
+# -*- mode: conf -*-
+
+[Unit]
+Description=Prometheus exporter for machine metrics, written in Go with pluggable metric collectors.
+Documentation=https://github.com/trustpilot/beat-exporter
+After=network.target
+
+[Service]
+EnvironmentFile=-/etc/default/{{ beats_type }}beat_exporter
+User=nobody
+LimitNOFILE=4096
+LimitNPROC=4096
+ExecStart=/usr/local/bin/beat-exporter $BEAT_EXPORTER_OPTS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

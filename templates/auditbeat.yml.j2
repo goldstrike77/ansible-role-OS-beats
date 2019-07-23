@@ -1,0 +1,49 @@
+auditbeat.modules:
+- module: auditd
+  failure_mode: silent
+  include_raw_message: false
+  include_warnings: false
+  audit_rules: |
+{% for rules in auditbeat_audit_rules %}
+    {{ rules }}
+{% endfor %}
+- module: file_integrity
+  paths:
+  - /bin
+  - /usr/bin
+  - /usr/local/bin
+  - /sbin
+  - /usr/sbin
+  - /usr/local/sbin
+  - /etc
+  exclude_files:
+  - '(?i)\.sw[nop]$'
+  - '~$'
+  - '/\.git($|/)'
+  include_files: []
+  recursive: true
+- module: system
+  datasets:
+    - login
+    - package
+    - user
+  state.period: 12h
+  user.detect_password_changes: true
+  login.wtmp_file_pattern: /var/log/wtmp*
+  login.btmp_file_pattern: /var/log/btmp*
+output.{{ beats_output_type }}:
+  hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
+  loadbalance: true
+processors:
+  - add_cloud_metadata: ~
+  - drop_event:
+     when:
+        equals:
+          auditd.summary.object.type: process
+  - drop_fields:
+     fields: ["agent.ephemeral_id", "agent.hostname", "agent.version", "agent.id", "audit.data.fp", "auditd.data.arch", "auditd.data.code", "auditd.data.compat", "auditd.data.ip", "auditd.data.sig", "auditd.data.syscall", "auditd.result", "auditd.summary.actor.primary", "auditd.summary.actor.secondary", "auditd.summary.how", "auditd.summary.object.primary", "process.name", "process.pid", "agent.type", "auditd.sequence", "service.type"]
+logging.level: warning
+http:
+  enabled: true
+  host: localhost
+  port: {{ beats_port_arg.http }}

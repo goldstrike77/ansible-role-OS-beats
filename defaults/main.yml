@@ -1,0 +1,36 @@
+---
+# General parameters #
+beats_is_install: false # A boolean value, whether install the Filebeat.
+beats_version: '7.1.1' # Specify the Filebeat version.
+beats_type: 'file'
+beats_selinux: false # SELinux security policy.
+
+# Filebeat parameters #
+filebeat_configset: 'wazuh' # Specific configuration set by instances of this.
+filebeat_configver: '3.9.3' # Specific configuration set versions.
+
+# Auditbeat parameters #
+auditbeat_audit_rules:
+  - ''
+
+# Listen port #
+beats_port_arg:
+  http: '5066' # Port for beat http.
+  exporter: '9479' # Port for prometheus exporter.
+
+# Service Mesh #
+environments: 'SIT' # Define the service environment.
+consul_public_register: false # Whether register a exporter service with public consul client.
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Public Consul client ACL token.
+consul_public_http_port: '8500' # The consul HTTP API port.
+consul_public_clients: # List of public consul clients.
+  - '127.0.0.1'
+
+# output Variables #
+beats_output_type: 'elasticsearch'
+beats_output_host: # The list of known servers to connect to. 
+  - '127.0.0.1'
+beats_output_port: '9200' # Servers communication port.
+beats_output_auth: false # A boolean value, Enable or Disable authentication.
+beats_output_pass: 'password' # Authenticated password.
+beats_output_user: 'elastic' # Authenticated user.

@@ -1,0 +1,8 @@
+---
+- name: Enable Beats service
+  systemd:
+    name: '{{ beats_type }}beat.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
+  listen: Ensure Beats service is enabled

@@ -1,0 +1,37 @@
+---
+- name: 'Add Beat {{ beats_version.split(".")[0] }} YUM repositories'
+  yum_repository:
+    name: '{{ beats_repo_name }}'
+    description: '{{ beats_repo_name }} YUM repository'
+    file: '{{ beats_repo_name }}'
+    baseurl: '{{ beats_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Install the Beat packages
+  yum:
+    name: '{{ beats_type }}beat-{{ beats_version }}*'
+    state: 'present'
+    enablerepo: '{{ beats_repo_name }}'
+    validate_certs: 'no'
+    update_cache: 'yes'
+    disable_gpg_check: 'yes'
+  register: beats_update
+
+- name: 'Remove Beat {{ beats_version.split(".")[0] }} YUM repositories'
+  yum_repository:
+    name: '{{ beats_repo_name }}'
+    state: 'absent'
+
+- name: Disable auditd service and ensure it is masked
+  systemd:
+    name: '{{ item }}'
+    enabled: 'no'
+    state: 'stopped'
+    masked: 'yes'
+  loop:
+    - 'auditd.service'
+    - 'systemd-journald-audit.socket'
+  when: beats_type == 'audit'
+  changed_when: false
+  failed_when: false

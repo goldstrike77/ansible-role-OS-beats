@@ -1,0 +1,9 @@
+---
+- name: Auditbeat main configuration file transfer
+  template:
+    src: 'auditbeat.yml.j2'
+    dest: '/etc/auditbeat/auditbeat.yml'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  register: beats_config

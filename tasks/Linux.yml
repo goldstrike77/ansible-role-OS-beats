@@ -1,0 +1,30 @@
+---
+- name: Include OS-specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+
+- name: Include tasks for specific OS
+  include: '{{ ansible_system }}/{{ ansible_os_family }}.yml'
+
+- name: Configure the firewall
+  include: '{{ ansible_system }}/firewall.yml'
+
+- name: Straight to getenforce selinux status
+  include: '{{ ansible_system }}/selinux.yml'
+
+- name: Configuration the Beats
+  include: '{{ ansible_system }}/{{ beats_type }}beat.yml'
+
+- name: Reload the node Beats service
+  shell: echo ''
+  notify: 'Ensure Beats service is enabled'
+  when: beats_config is changed or beats_update is changed
+
+- name: Force the handler to run immediately
+  meta: flush_handlers
+
+- name: Include prometheus exporter tasks
+  include: '{{ ansible_system }}/exporter.yml'
+
+- name: Registered with HashiCorp Consul
+  include: '{{ ansible_system }}/register.yml'
+  when: consul_public_register

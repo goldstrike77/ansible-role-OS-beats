@@ -55,6 +55,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Auditbeat parameters
 * `auditbeat_audit_rules`: Specific audit rules list.
+* `auditbeat_drop_fields`: Specific which fields to drop.
 
 ##### Listen port
 * `beats_port_arg.http`: Port for Beats http.
@@ -62,6 +63,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Service Mesh
 * `environments`: Define the service environment.
+* `exporter_is_install`: Whether to install prometheus exporter.
 * `consul_public_register`: Whether register a exporter service with public consul client.
 * `consul_public_exporter_token`: Public Consul client ACL token.
 * `consul_public_http_port`: The consul HTTP API port.
@@ -104,6 +106,12 @@ You can also use the group_vars or the host_vars files for setting the variables
     beats_selinux: false
     filebeat_configset: 'wazuh'
     filebeat_configver: '3.9.3'
+    auditbeat_audit_rules:
+      - '-w /sbin/insmod -p x -k modules'
+      - '-w /sbin/rmmod -p x -k modules'
+    auditbeat_drop_fields:
+      - 'agent'
+      - 'audit'
     beats_port_arg:
       http: '5066'
       exporter: '9479'
@@ -115,6 +123,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     beats_output_pass: 'password'
     beats_output_user: 'elastic'
     environments: 'SIT'
+    exporter_is_install: false
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
     consul_public_http_port: '8500'

@@ -11,7 +11,30 @@ filebeat_configver: '3.9.3' # Specific configuration set versions.
 
 # Auditbeat parameters #
 auditbeat_audit_rules: # Specific audit rules list.
-  - ''
+  - '-w /sbin/insmod -p x -k modules'
+  - '-w /sbin/rmmod -p x -k modules'
+auditbeat_drop_fields: # Specific which fields to drop.
+  - 'agent'
+  - 'audit'
+  - 'auditd.data'
+  - 'auditd.message_type'
+  - 'auditd.result'
+  - 'auditd.sequence'
+  - 'auditd.session'
+  - 'auditd.summary'
+  - 'event.category'
+  - 'event.module'
+  - 'file'
+  - 'process.name'
+  - 'process.ppid'
+  - 'service.type'
+  - 'tags'
+  - 'user.audit.id'
+  - 'user.effective'
+  - 'user.filesystem'
+  - 'user.group.id'
+  - 'user.id'
+  - 'user.saved'
 
 # Listen port #
 beats_port_arg:
@@ -20,6 +43,7 @@ beats_port_arg:
 
 # Service Mesh #
 environments: 'SIT' # Define the service environment.
+exporter_is_install: false # Whether to install prometheus exporter.
 consul_public_register: false # Whether register a exporter service with public consul client.
 consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Public Consul client ACL token.
 consul_public_http_port: '8500' # The consul HTTP API port.

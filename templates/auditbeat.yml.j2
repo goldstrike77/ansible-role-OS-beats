@@ -41,7 +41,7 @@ processors:
         equals:
           auditd.summary.object.type: process
   - drop_fields:
-     fields: ["agent.ephemeral_id", "agent.hostname", "agent.version", "agent.id", "audit.data.fp", "auditd.data.arch", "auditd.data.code", "auditd.data.compat", "auditd.data.ip", "auditd.data.sig", "auditd.data.syscall", "auditd.result", "auditd.summary.actor.primary", "auditd.summary.actor.secondary", "auditd.summary.how", "auditd.summary.object.primary", "process.name", "process.pid", "agent.type", "auditd.sequence", "service.type"]
+     fields: ["{{ auditbeat_drop_fields | list | join('", "') }}"]
 logging.level: warning
 http:
   enabled: true

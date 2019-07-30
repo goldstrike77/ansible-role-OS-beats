@@ -106,12 +106,6 @@ You can also use the group_vars or the host_vars files for setting the variables
     beats_selinux: false
     filebeat_configset: 'wazuh'
     filebeat_configver: '3.9.3'
-    auditbeat_audit_rules:
-      - '-w /sbin/insmod -p x -k modules'
-      - '-w /sbin/rmmod -p x -k modules'
-    auditbeat_drop_fields:
-      - 'agent'
-      - 'audit'
     beats_port_arg:
       http: '5066'
       exporter: '9479'

@@ -34,6 +34,11 @@ auditbeat.modules:
 output.{{ beats_output_type }}:
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
   loadbalance: true
+fields_under_root: true
+fields:
+  enviornment: {{ environments | upper }}
+  group: {{ group_names[0] | upper }}
+  source: {{ ansible_fqdn }}
 processors:
   - add_cloud_metadata: ~
   - drop_event:

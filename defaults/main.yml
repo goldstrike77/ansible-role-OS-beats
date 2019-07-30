@@ -25,6 +25,7 @@ auditbeat_drop_fields: # Specific which fields to drop.
   - 'event.category'
   - 'event.module'
   - 'file'
+  - 'host.name'
   - 'process.name'
   - 'process.ppid'
   - 'service.type'

@@ -59,6 +59,8 @@ output.{{ beats_output_type }}:
   indices:
     - index: 'wazuh-alerts-3.x-%{+yyyy.MM.dd}'
 
+logging.level: warning
+logging.to_syslog: true
 http:
   enabled: true
   host: localhost

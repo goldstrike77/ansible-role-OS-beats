@@ -1,8 +1,10 @@
 auditbeat.modules:
 - module: auditd
+  resolve_ids: true
   failure_mode: silent
   include_raw_message: false
   include_warnings: false
+  backlog_limit: 8192
   audit_rules: |
 {% for rules in auditbeat_audit_rules %}
     {{ rules }}
@@ -48,6 +50,7 @@ processors:
   - drop_fields:
      fields: ["{{ auditbeat_drop_fields | list | join('", "') }}"]
 logging.level: warning
+logging.to_syslog: true
 http:
   enabled: true
   host: localhost

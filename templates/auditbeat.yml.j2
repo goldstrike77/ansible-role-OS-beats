@@ -49,7 +49,7 @@ processors:
           auditd.summary.object.type: process
   - drop_fields:
      fields: ["{{ auditbeat_drop_fields | list | join('", "') }}"]
-logging.level: warning
+logging.level: error
 logging.to_syslog: true
 http:
   enabled: true

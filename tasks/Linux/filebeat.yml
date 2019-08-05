@@ -3,9 +3,10 @@
   template:
     src: '{{ filebeat_configset }}/{{ filebeat_configver }}/{{ beats_version.split(".")[0] }}/{{ item }}.j2'
     dest: '/etc/filebeat/{{ item }}'
-    owner: root
-    group: root
-    mode: 0644
+    backup: 'yes'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   loop:
     - 'wazuh-template.json'
     - 'filebeat.yml'

@@ -19,6 +19,9 @@
     - 'policycoreutils-python'
     - '{{ beats_type }}beat-{{ beats_version }}*'
   register: beats_update
+  until: beats_update is succeeded
+  retries: 3
+  delay: 5
 
 - name: Clean the Beats metadata
   command: 'yum clean all'

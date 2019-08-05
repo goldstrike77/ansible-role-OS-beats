@@ -3,6 +3,7 @@
   template:
     src: 'auditbeat.yml.j2'
     dest: '/etc/auditbeat/auditbeat.yml'
+    backup: 'yes'
     owner: 'root'
     group: 'root'
     mode: '0600'

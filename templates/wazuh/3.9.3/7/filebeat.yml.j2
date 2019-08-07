@@ -49,7 +49,8 @@ processors:
           data.win.eventdata.ipAddress: \b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b
 
 output.{{ beats_output_type }}:
-  hosts: ["{{ beats_output_host | list | join(":" + beats_output_port + ", ") }}:{{ beats_output_port }}"]
+  hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
+  loadbalance: true
   protocol: "http"
 {% if beats_output_auth %}
   username: "{{ beats_output_user }}"

@@ -38,8 +38,8 @@ output.{{ beats_output_type }}:
   loadbalance: true
 fields_under_root: true
 fields:
-  enviornment: {{ environments | upper }}
-  group: {{ group_names[0] | upper }}
+  enviornment: {{ environments | default("ENV") | upper }}
+  group: {{ group_names[0] | default("GROUP") | upper }}
   source: {{ ansible_fqdn }}
 processors:
   - add_cloud_metadata: ~

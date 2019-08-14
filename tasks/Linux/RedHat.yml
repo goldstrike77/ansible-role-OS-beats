@@ -17,7 +17,7 @@
     disable_gpg_check: 'yes'
   loop:
     - 'policycoreutils-python'
-    - '{{ beats_type }}beat-{{ beats_version }}*'
+    - '{{ beats_type }}beat-{{ beats_version }}-1'
   register: beats_update
   until: beats_update is succeeded
   retries: 3

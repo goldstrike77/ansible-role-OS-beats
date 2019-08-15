@@ -7,7 +7,7 @@ beats_selinux: false # SELinux security policy.
 
 # Filebeat parameters #
 filebeat_configset: 'wazuh' # Specific configuration set by instances of this.
-filebeat_configver: '3.9.3' # Specific configuration set versions.
+filebeat_configver: '3' # Specific configuration set versions.
 
 # Auditbeat parameters #
 auditbeat_audit_rules: # Specific audit rules list.

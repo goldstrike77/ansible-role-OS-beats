@@ -26,7 +26,7 @@
     dest: '/lib/systemd/system/{{ beats_type }}beat_exporter.service'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   register: beats_systemd_update
 
 - name: Reloading the Beats exporter service

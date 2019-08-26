@@ -24,10 +24,10 @@
 
 - name: Include prometheus exporter tasks
   include: '{{ ansible_system }}/exporter.yml'
-  when: exporter_is_install
+  when: exporter_is_install | bool
 
 - name: Registered with HashiCorp Consul
   include: '{{ ansible_system }}/register.yml'
   when:
-    - exporter_is_install
-    - consul_public_register
+    - exporter_is_install | bool
+    - consul_public_register | bool

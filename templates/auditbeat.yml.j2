@@ -9,6 +9,7 @@ auditbeat.modules:
 {% for rules in auditbeat_audit_rules %}
     {{ rules }}
 {% endfor %}
+
 - module: file_integrity
   paths:
   - /bin
@@ -24,6 +25,7 @@ auditbeat.modules:
   - '/\.git($|/)'
   include_files: []
   recursive: true
+
 - module: system
   datasets:
     - login
@@ -33,11 +35,14 @@ auditbeat.modules:
   user.detect_password_changes: true
   login.wtmp_file_pattern: /var/log/wtmp*
   login.btmp_file_pattern: /var/log/btmp*
+
 queue.mem:
   events: 32768
+
 output.{{ beats_output_type }}:
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
   loadbalance: {% if beats_output_host | length > 1 %}true{% else %}false{% endif %}
+
 fields_under_root: true
 fields:
   subscription: {{ subscription | default("default") | upper }}
@@ -45,6 +50,7 @@ fields:
   enviornment: {{ environments | default("ENV") | upper }}
   group: {{ group_names[0] | default("GROUP") | upper }}
   source: {{ ansible_fqdn }}
+
 processors:
   - add_cloud_metadata: ~
   - drop_event:
@@ -53,8 +59,10 @@ processors:
           auditd.summary.object.type: process
   - drop_fields:
      fields: ["{{ auditbeat_drop_fields | list | join('", "') }}"]
+
 logging.level: error
 logging.to_syslog: true
+
 http:
   enabled: true
   host: localhost

@@ -33,9 +33,11 @@ auditbeat.modules:
   user.detect_password_changes: true
   login.wtmp_file_pattern: /var/log/wtmp*
   login.btmp_file_pattern: /var/log/btmp*
+queue.mem:
+  events: 32768
 output.{{ beats_output_type }}:
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
-  loadbalance: true
+  loadbalance: {% if beats_output_host | length > 1 %}true{% else %}false{% endif %}
 fields_under_root: true
 fields:
   subscription: {{ subscription | default("default") | upper }}

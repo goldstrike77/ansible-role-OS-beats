@@ -118,9 +118,13 @@ You can also use the group_vars or the host_vars files for setting the variables
     beats_output_auth: false
     beats_output_pass: 'password'
     beats_output_user: 'elastic'
-    subscription: 'default'
-    region: 'default'
     environments: 'SIT'
+    tags:
+      subscription: 'default'
+      owner: 'nobody'
+      department: 'Infrastructure'
+      organization: 'The Company'
+  region: 'IDC01'
     exporter_is_install: false
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'

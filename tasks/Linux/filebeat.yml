@@ -11,3 +11,11 @@
     - 'wazuh-template.json'
     - 'filebeat.yml'
   register: beats_config
+
+- name: Wazuh module transfer
+  copy:
+    src: 'module/wazuh'
+    dest: '/usr/share/filebeat/module'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'

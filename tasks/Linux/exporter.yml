@@ -17,7 +17,7 @@
     dest: '/etc/default/{{ beats_type }}beat_exporter'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   register: beats_exporter_config
 
 - name: Beats service file transfer

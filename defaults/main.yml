@@ -1,9 +1,8 @@
 ---
 # General parameters #
 beats_is_install: false # A boolean value, whether install the Beats.
-beats_version: '7.2.1' # Specify the Beats.
+beats_version: '7.3.2' # Specify the Beats.
 beats_type: 'file' # Which kinds of beats are installs.
-beats_selinux: false # SELinux security policy.
 
 # Filebeat parameters #
 filebeat_configset: 'wazuh' # Specific configuration set by instances of this.

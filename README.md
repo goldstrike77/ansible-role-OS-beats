@@ -47,7 +47,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### General parameters
 * `beats_version`: Specify the Beats.
 * `beats_type`: Which kinds of beats are installs.
-* `beats_selinux`: SELinux security policy.
 
 ##### Filebeat parameters
 * `filebeat_configset`: Specific configuration set by instances of this.
@@ -105,9 +104,8 @@ You can also use the group_vars or the host_vars files for setting the variables
 
     beats_version: '7.1.1'
     beats_type: 'file'
-    beats_selinux: false
     filebeat_configset: 'wazuh'
-    filebeat_configver: '3.9.3'
+    filebeat_configver: '3'
     beats_port_arg:
       http: '5066'
       exporter: '9479'
@@ -124,7 +122,7 @@ You can also use the group_vars or the host_vars files for setting the variables
       owner: 'nobody'
       department: 'Infrastructure'
       organization: 'The Company'
-  region: 'IDC01'
+      region: 'IDC01'
     exporter_is_install: false
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'

@@ -12,6 +12,7 @@
   yum:
     name: '{{ beats_packages }}'
     state: 'present'
+    enablerepo: '{{ beats_repo_name }}'
     validate_certs: 'no'
     update_cache: 'yes'
     disable_gpg_check: 'yes'

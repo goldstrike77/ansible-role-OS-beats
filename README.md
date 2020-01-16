@@ -60,6 +60,14 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `beats_port_arg.http`: Port for Beats http.
 * `beats_port_arg.exporter`: Port for prometheus exporter.
 
+##### Output Variables
+* `beats_output_type`: Configure what output to use when sending the data collected by the Beats.
+* `beats_output_host`: The list of known servers to connect to.
+* `beats_output_port`: Servers communication port.
+* `beats_output_auth`: A boolean value, Enable or Disable authentication.
+* `beats_output_pass`: Authenticated password.
+* `beats_output_user`: Authenticated user.
+
 ##### Service Mesh
 * `subscription`: Define the service subscription.
 * `region`: Define the service region.
@@ -69,14 +77,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_public_exporter_token`: Public Consul client ACL token.
 * `consul_public_http_port`: The consul HTTP API port.
 * `consul_public_clients`: List of public consul clients.
-
-##### Output Variables
-* `beats_output_type`: Configure what output to use when sending the data collected by the Beats.
-* `beats_output_host`: The list of known servers to connect to.
-* `beats_output_port`: Servers communication port.
-* `beats_output_auth`: A boolean value, Enable or Disable authentication.
-* `beats_output_pass`: Authenticated password.
-* `beats_output_user`: Authenticated user.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -116,7 +116,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     beats_output_auth: false
     beats_output_pass: 'password'
     beats_output_user: 'elastic'
-    environments: 'SIT'
+    environments: 'Development'
     tags:
       subscription: 'default'
       owner: 'nobody'

@@ -40,6 +40,9 @@ queue.mem:
   events: 32768
 
 output.{{ beats_output_type }}:
+{% if beats_output_type == 'logstash' %}
+  bulk_max_size: 1024
+{% endif %}
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
   loadbalance: {% if beats_output_host | length > 1 %}true{% else %}false{% endif %}
 

@@ -31,6 +31,7 @@ auditbeat.modules:
     - login
     - package
     - user
+  period: 1m
   state.period: 12h
   user.detect_password_changes: true
   login.wtmp_file_pattern: /var/log/wtmp*

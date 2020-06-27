@@ -47,6 +47,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### General parameters
 * `beats_version`: Specify the Beats.
 * `beats_type`: Which kinds of beats are installs.
+* `beats_rotate_day`: Specify the logs retention days.
 
 ##### Filebeat parameters
 * `filebeat_configset`: Specific configuration set by instances of this.
@@ -64,6 +65,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `beats_output_type`: Configure what output to use when sending the data collected by the Beats.
 * `beats_output_host`: The list of known servers to connect to.
 * `beats_output_port`: Servers communication port.
+* `beats_output_https`: A boolean value, whether Encrypting HTTP client communications.
 * `beats_output_auth`: A boolean value, Enable or Disable authentication.
 * `beats_output_pass`: Authenticated password.
 * `beats_output_user`: Authenticated user.
@@ -96,42 +98,48 @@ See tests/inventory for an example.
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: all
-      roles:
-         - role: ansible-role-OS-beats
-           beats_version: '6.8.1'
+```yaml
+- hosts: all
+  roles:
+     - role: ansible-role-OS-beats
+       beats_version: '6.8.1'
+```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    beats_version: '7.1.1'
-    beats_type: 'file'
-    filebeat_configset: 'wazuh'
-    filebeat_configver: '3'
-    beats_port_arg:
-      http: '5066'
-      exporter: '9479'
-    beats_output_type: 'elasticsearch'
-    beats_output_host:
-      - '127.0.0.1'
-    beats_output_port: '9200'
-    beats_output_auth: false
-    beats_output_pass: 'password'
-    beats_output_user: 'elastic'
-    environments: 'Development'
-    tags:
-      subscription: 'default'
-      owner: 'nobody'
-      department: 'Infrastructure'
-      organization: 'The Company'
-      region: 'IDC01'
-    exporter_is_install: false
-    consul_public_register: false
-    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_http_port: '8500'
-    consul_public_http_prot: 'https'
-    consul_public_clients:
-      - '127.0.0.1'
+```yaml
+beats_version: '7.1.1'
+beats_type: 'file'
+beats_rotate_day: '180'
+filebeat_configset: 'wazuh'
+filebeat_configver: '3'
+beats_port_arg:
+  http: '5066'
+  exporter: '9479'
+beats_output_type: 'elasticsearch'
+beats_output_host:
+  - '127.0.0.1'
+beats_output_port: '9200'
+beats_output_https: true
+beats_output_auth: true
+beats_output_pass: 'changeme'
+beats_output_user: 'elastic'
+environments: 'Development'
+tags:
+  subscription: 'default'
+  owner: 'nobody'
+  department: 'Infrastructure'
+  organization: 'The Company'
+  region: 'IDC01'
+exporter_is_install: false
+consul_public_register: false
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_public_http_port: '8500'
+consul_public_http_prot: 'https'
+consul_public_clients:
+  - '127.0.0.1'
+```
 
 ## License
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)

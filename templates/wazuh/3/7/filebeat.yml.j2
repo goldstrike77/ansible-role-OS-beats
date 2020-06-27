@@ -15,11 +15,14 @@ setup.ilm.enabled: false
 output.{{ beats_output_type }}:
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
   loadbalance: true
-  protocol: "http"
+  protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
 {% if beats_output_auth %}
   username: "{{ beats_output_user }}"
   password: "{{ beats_output_pass }}"
 {% endif %}
+  ssl:
+    supported_protocols: [TLSv1.2, TLSv1.3]
+    verification_mode: none
 
 logging.level: warning
 logging.to_syslog: true

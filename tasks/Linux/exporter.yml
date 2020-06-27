@@ -1,7 +1,7 @@
 ---
 - name: Beats exporter program binary transfer
   unarchive:
-    src: 'beat-exporter-0.1.2.linux-{{ architecture[ansible_architecture] }}.tar.gz'
+    src: 'beat-exporter-0.4.0-linux-{{ architecture[ansible_architecture] }}.tar.gz'
     dest: '/usr/local/bin'
     owner: 'root'
     group: 'root'

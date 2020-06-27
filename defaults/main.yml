@@ -3,6 +3,7 @@
 beats_is_install: false # A boolean value, whether install the Beats.
 beats_version: '7.3.2' # Specify the Beats.
 beats_type: 'file' # Which kinds of beats are installs.
+beats_rotate_day: '180' # Specify the logs retention days.
 
 # Filebeat parameters #
 filebeat_configset: 'wazuh' # Specific configuration set by instances of this.
@@ -47,9 +48,10 @@ beats_port_arg:
 beats_output_type: 'elasticsearch' # Configure what output to use when sending the data collected by the Beats.
 beats_output_host: # The list of known servers to connect to. 
   - '127.0.0.1'
+beats_output_https: true # A boolean value, whether Encrypting HTTP client communications.
 beats_output_port: '9200' # Servers communication port.
-beats_output_auth: false # A boolean value, Enable or Disable authentication.
-beats_output_pass: 'password' # Authenticated password.
+beats_output_auth: true # A boolean value, Enable or Disable authentication.
+beats_output_pass: 'changeme' # Authenticated password.
 beats_output_user: 'elastic' # Authenticated user.
 
 # Service Mesh #

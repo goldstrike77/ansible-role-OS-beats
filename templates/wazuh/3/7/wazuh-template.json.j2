@@ -5,10 +5,10 @@
     "wazuh-archives-3.x-*"
   ],
   "settings": {
+    "index.lifecycle.name": "ilm-history-{{ beats_rotate_day }}d-policy",
     "index.refresh_interval": "30s",
     "index.number_of_shards": "{{ beats_output_host | length }}",
-    "index.number_of_replicas": "{% if ( beats_output_host | length - 1 ) >= 2 %}2{% else %}{{ beats_output_host | length - 1 }}{% endif %}",
-    "index.auto_expand_replicas": "0-1",
+    "index.number_of_replicas": "{% if beats_output_host | length > 1 %}1{% else %}0{% endif %}",
     "index.mapping.total_fields.limit": 10000,
     "index.query.default_field": [
       "GeoLocation.city_name",
@@ -323,11 +323,9 @@
       "data.vulnerability.package.version",
       "data.vulnerability.rationale",
       "data.vulnerability.severity",
-      "data.vulnerability.state",
       "data.vulnerability.title",
       "data.vulnerability.assigner",
       "data.vulnerability.cve_version",
-      "data.vulnerability.alert_origin",
       "data.win.eventdata.auditPolicyChanges",
       "data.win.eventdata.auditPolicyChangesId",
       "data.win.eventdata.binary",
@@ -401,7 +399,8 @@
       "rule.id",
       "rule.info",
       "rule.mitre.id",
-      "rule.mitre.tactics",
+      "rule.mitre.tactic",
+      "rule.mitre.technique",
       "rule.pci_dss",
       "rule.hipaa",
       "rule.nist_800_53",
@@ -765,7 +764,10 @@
               "id": {
                 "type": "keyword"
               },
-              "tactics": {
+              "tactic": {
+                "type": "keyword"
+              },
+              "technique": {
                 "type": "keyword"
               }
             }
@@ -1705,9 +1707,6 @@
               "severity": {
                 "type": "keyword"
               },
-              "state": {
-                "type": "keyword"
-              },
               "title": {
                 "type": "keyword"
               },
@@ -1715,9 +1714,6 @@
                 "type": "keyword"
               },
               "cve_version": {
-                "type": "keyword"
-              },
-              "alert_origin": {
                 "type": "keyword"
               }
             }

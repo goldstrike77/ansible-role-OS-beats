@@ -1,0 +1,14 @@
+{
+  "order": 1,
+  "index_patterns": [
+    "auditbeat-*"
+  ],
+  "settings": {
+    "index.lifecycle.name": "ilm-history-{{ beats_rotate_day }}d-policy",
+    "index.refresh_interval": "30s",
+    "index.number_of_shards": "{{ beats_output_host | length }}",
+    "index.number_of_replicas": "{% if beats_output_host | length > 1 %}1{% else %}0{% endif %}",
+    "index.mapping.total_fields.limit": 10000,
+  },
+  "version": 1
+}

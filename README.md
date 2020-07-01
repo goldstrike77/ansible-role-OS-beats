@@ -71,15 +71,16 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `beats_output_user`: Authenticated user.
 
 ##### Service Mesh
-* `subscription`: Define the service subscription.
-* `region`: Define the service region.
 * `environments`: Define the service environment.
+* `datacenter`: Define the DataCenter.
+* `domain`: Define the Domain.
+* `tags`: Define the service custom label.
 * `exporter_is_install`: Whether to install prometheus exporter.
 * `consul_public_register`: Whether register a exporter service with public consul client.
 * `consul_public_exporter_token`: Public Consul client ACL token.
-* `consul_public_http_port`: The consul HTTP API port.
 * `consul_public_http_prot`: The consul Hypertext Transfer Protocol.
 * `consul_public_clients`: List of public consul clients.
+* `consul_public_http_port`: The consul HTTP API port.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -106,7 +107,7 @@ Including an example of how to use your role (for instance, with variables passe
 ```
 
 ### Combination of group vars and playbook
-You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
+You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
 beats_version: '7.1.1'
@@ -126,6 +127,8 @@ beats_output_auth: true
 beats_output_pass: 'changeme'
 beats_output_user: 'elastic'
 environments: 'Development'
+datacenter: 'dc01'
+domain: 'local'
 tags:
   subscription: 'default'
   owner: 'nobody'

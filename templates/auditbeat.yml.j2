@@ -40,9 +40,25 @@ auditbeat.modules:
 queue.mem:
   events: 32768
 
+{% if beats_output_type == 'elasticsearch' %}
+setup.template.json.enabled: true
+setup.template.json.path: '/etc/auditbeat/auditbeat-template.json'
+setup.template.json.name: 'auditbeat'
+setup.template.overwrite: true
+setup.ilm.enabled: false
+{% endif %}
+
 output.{{ beats_output_type }}:
-{% if beats_output_type == 'logstash' %}
-  bulk_max_size: 1024
+  bulk_max_size: 1000
+{% if beats_output_type == 'elasticsearch' %}
+  protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
+{% if beats_output_auth %}
+  username: "{{ beats_output_user }}"
+  password: "{{ beats_output_pass }}"
+{% endif %}
+  ssl:
+    supported_protocols: [TLSv1.2, TLSv1.3]
+    verification_mode: none
 {% endif %}
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
   loadbalance: {% if beats_output_host | length > 1 %}true{% else %}false{% endif %}
@@ -50,6 +66,8 @@ output.{{ beats_output_type }}:
 fields_under_root: true
 fields:
   enviornment: {{ environments | default("ENV") | upper }}
+  datacenter: {{ datacenter | default("") | lower }}
+  domain: {{ domain | default("") | lower }}
   group: {{ group_names[-1] | default("GROUP") | upper }}
   source: {{ ansible_fqdn }}
 {% if tags is defined %}

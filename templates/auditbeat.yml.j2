@@ -57,7 +57,7 @@ output.{{ beats_output_type }}:
   password: "{{ beats_output_pass }}"
 {% endif %}
   ssl:
-    supported_protocols: [TLSv1.2, TLSv1.3]
+    supported_protocols: [TLSv1.2]
     verification_mode: none
 {% endif %}
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']

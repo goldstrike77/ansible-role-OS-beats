@@ -1,1 +1,1 @@
-BEAT_EXPORTER_OPTS='-beat.uri "http://localhost:{{ beats_port_arg.http }}" -web.listen-address ":{{ beats_port_arg.exporter }}"'
+BEAT_EXPORTER_OPTS='-beat.uri "http://localhost:{{ beats_port_arg.http }}" -web.listen-address "{{ ansible_default_ipv4.address }}:{{ beats_port_arg.exporter }}"'

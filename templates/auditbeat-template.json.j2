@@ -8,7 +8,7 @@
     "index.refresh_interval": "30s",
     "index.number_of_shards": "{{ beats_output_host | length }}",
     "index.number_of_replicas": "{% if beats_output_host | length > 1 %}1{% else %}0{% endif %}",
-    "index.mapping.total_fields.limit": 10000,
+    "index.mapping.total_fields.limit": 10000
   },
   "version": 1
 }

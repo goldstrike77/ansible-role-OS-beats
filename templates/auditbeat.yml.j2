@@ -94,10 +94,10 @@ fields:
 
 processors:
   - add_cloud_metadata: ~
-  - drop_event:
-     when:
-        equals:
-          auditd.summary.object.type: process
+#  - drop_event:
+#     when:
+#        equals:
+#          auditd.summary.object.type: process
 
 logging.level: error
 logging.to_syslog: true

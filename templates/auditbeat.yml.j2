@@ -28,11 +28,15 @@ auditbeat.modules:
 
 - module: system
   datasets:
+    - host
     - login
     - package
     - user
+#    - process
+#    - socket
   period: 1m
   state.period: 12h
+  socket.include_localhost: false
   user.detect_password_changes: true
   login.wtmp_file_pattern: /var/log/wtmp*
   login.btmp_file_pattern: /var/log/btmp*
@@ -41,11 +45,23 @@ queue.mem:
   events: 32768
 
 {% if beats_output_type == 'elasticsearch' %}
-setup.template.json.enabled: true
-setup.template.json.path: '/etc/auditbeat/auditbeat-template.json'
-setup.template.json.name: 'auditbeat'
-setup.template.overwrite: true
+setup.template:
+  json.enabled: true
+  json.path: '/etc/auditbeat/auditbeat-template.json'
+  json.name: 'auditbeat'
+  overwrite: true
 setup.ilm.enabled: false
+setup.dashboards.enabled: true
+setup.kibana:
+  host: "{{ beats_kibana_host | list | random(seed=inventory_hostname) }}:{{ beats_kibana_port | default('5601') }}"
+  protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
+{% if beats_output_auth %}
+  kibana.name: "{{ beats_output_user | default('elastic') }}"
+  kibana.password: "{{ beats_output_pass | default('changeme') }}"
+{% endif %}
+  ssl:
+    supported_protocols: [TLSv1.2]
+    verification_mode: none
 {% endif %}
 
 output.{{ beats_output_type }}:
@@ -53,8 +69,8 @@ output.{{ beats_output_type }}:
 {% if beats_output_type == 'elasticsearch' %}
   protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
 {% if beats_output_auth %}
-  username: "{{ beats_output_user }}"
-  password: "{{ beats_output_pass }}"
+  username: "{{ beats_output_user | default('elastic') }}"
+  password: "{{ beats_output_pass | default('changeme') }}"
 {% endif %}
   ssl:
     supported_protocols: [TLSv1.2]
@@ -82,8 +98,6 @@ processors:
      when:
         equals:
           auditd.summary.object.type: process
-  - drop_fields:
-     fields: ["{{ auditbeat_drop_fields | list | join('", "') }}"]
 
 logging.level: error
 logging.to_syslog: true

@@ -26,11 +26,11 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs elastic Beats on operating system, including establishing a filesystem structure and server configuration with some common operational features.
+The Beats are lightweight data shippers, that you install on your servers to capture all sorts of operational data (think of logs, metrics, or network packet data). The Beats send the operational data to Elasticsearch, either directly or via Logstash, so it can be visualized with Kibana.
 
 ## Requirements
 ### Operating systems
-This role will work on the following operating systems:
+This Ansible role installs elastic Beats on operating system, including establishing a filesystem structure and server configuration with some common operational features, Will works on the following operating systems:
 
   * CentOS 7
 
@@ -55,7 +55,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Auditbeat parameters
 * `auditbeat_audit_rules`: Specific audit rules list.
-* `auditbeat_drop_fields`: Specific which fields to drop.
 
 ##### Listen port
 * `beats_port_arg.http`: Port for Beats http.
@@ -69,6 +68,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `beats_output_auth`: A boolean value, Enable or Disable authentication.
 * `beats_output_pass`: Authenticated password.
 * `beats_output_user`: Authenticated user.
+* `beats_kibana_host`: The list of kibana endpoints.
+* `beats_kibana_port`: Listening port for Kibana.
 
 ##### Service Mesh
 * `environments`: Define the service environment.
@@ -103,14 +104,14 @@ Including an example of how to use your role (for instance, with variables passe
 - hosts: all
   roles:
      - role: ansible-role-OS-beats
-       beats_version: '6.8.1'
+       beats_version: '7.7.1'
 ```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
-beats_version: '7.1.1'
+beats_version: '7.7.1'
 beats_type: 'file'
 beats_rotate_day: '180'
 filebeat_configset: 'wazuh'
@@ -126,6 +127,8 @@ beats_output_https: true
 beats_output_auth: true
 beats_output_pass: 'changeme'
 beats_output_user: 'elastic'
+beats_kibana_host: '{{ beats_output_host }}'
+beats_kibana_port: '5601'
 environments: 'Development'
 datacenter: 'dc01'
 domain: 'local'

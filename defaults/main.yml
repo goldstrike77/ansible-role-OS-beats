@@ -1,7 +1,7 @@
 ---
 # General parameters #
 beats_is_install: false # A boolean value, whether install the Beats.
-beats_version: '7.3.2' # Specify the Beats.
+beats_version: '7.7.1' # Specify the Beats.
 beats_type: 'file' # Which kinds of beats are installs.
 beats_rotate_day: '180' # Specify the logs retention days.
 
@@ -10,34 +10,10 @@ filebeat_configset: 'wazuh' # Specific configuration set by instances of this.
 filebeat_configver: '3' # Specific configuration set versions.
 
 # Auditbeat parameters #
+
 auditbeat_audit_rules: # Specific audit rules list.
   - '-w /sbin/insmod -p x -k modules'
   - '-w /sbin/rmmod -p x -k modules'
-auditbeat_drop_fields: # Specific which fields to drop.
-  - 'agent'
-  - 'audit'
-  - 'auditd.data'
-  - 'auditd.message_type'
-  - 'auditd.result'
-  - 'auditd.sequence'
-  - 'auditd.session'
-  - 'auditd.summary'
-  - 'event.category'
-  - 'event.module'
-  - 'file'
-  - 'host.name'
-  - 'process.name'
-  - 'process.ppid'
-  - 'process.title'
-  - 'service.type'
-  - 'tags'
-  - 'user.audit.id'
-  - 'user.effective'
-  - 'user.filesystem'
-  - 'user.group.id'
-  - 'user.group.name'
-  - 'user.id'
-  - 'user.saved'
 
 # Listen port #
 beats_port_arg:
@@ -46,13 +22,15 @@ beats_port_arg:
 
 # Output Variables #
 beats_output_type: 'elasticsearch' # Configure what output to use when sending the data collected by the Beats.
+beats_output_https: true # A boolean value, whether Encrypting HTTP client communications.
 beats_output_host: # The list of known servers to connect to. 
   - '127.0.0.1'
-beats_output_https: true # A boolean value, whether Encrypting HTTP client communications.
 beats_output_port: '9200' # Servers communication port.
 beats_output_auth: true # A boolean value, Enable or Disable authentication.
 beats_output_pass: 'changeme' # Authenticated password.
 beats_output_user: 'elastic' # Authenticated user.
+beats_kibana_host: '{{ beats_output_host }}' # The list of kibana endpoints.
+beats_kibana_port: '5601' # Listening port for Kibana.
 
 # Service Mesh #
 environments: 'Development' # Define the service environment.

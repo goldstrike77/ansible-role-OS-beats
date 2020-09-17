@@ -11,3 +11,14 @@
     - 'auditbeat.yml'
     - 'auditbeat-template.json'
   register: beats_config
+
+- name: Auditbeat systemd configuration
+  lineinfile:
+    state: 'present'
+    dest: '/lib/systemd/system/auditbeat.service'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    insertafter: '\[Service\]'
+  with_items:
+    - { regexp: '^Restart',      line: 'Restart=on-failure' }
+    - { regexp: '^RestartSec',   line: 'RestartSec=30s' }

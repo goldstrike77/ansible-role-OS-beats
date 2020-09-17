@@ -1,10 +1,12 @@
 auditbeat.modules:
+
 - module: auditd
   resolve_ids: true
   failure_mode: silent
   include_raw_message: false
   include_warnings: false
   backlog_limit: 8192
+  rate_limit: 0
   audit_rules: |
 {% for rules in auditbeat_audit_rules %}
     {{ rules }}
@@ -28,13 +30,22 @@ auditbeat.modules:
 
 - module: system
   datasets:
+    - package
+  period: 5m
+
+- module: system
+  datasets:
     - host
     - login
-    - package
-    - user
+    - user  
+  period: 1m
+
+#- module: system
+#  datasets:
 #    - process
 #    - socket
-  period: 1m
+#  period: 10s
+
   state.period: 12h
   socket.include_localhost: false
   user.detect_password_changes: true
@@ -93,11 +104,9 @@ fields:
 {% endif %}
 
 processors:
+  - add_host_metadata: ~
   - add_cloud_metadata: ~
-#  - drop_event:
-#     when:
-#        equals:
-#          auditd.summary.object.type: process
+  - add_docker_metadata: ~
 
 logging.level: error
 logging.to_syslog: true

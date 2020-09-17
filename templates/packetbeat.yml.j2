@@ -1,0 +1,127 @@
+packetbeat.interfaces.device: {{ ansible_default_ipv4.alias }}
+packetbeat.interfaces.snaplen: {{ ansible_default_ipv4.mtu }}
+packetbeat.interfaces.type: af_packet
+packetbeat.interfaces.buffer_size_mb: 100
+
+packetbeat.flows:
+  timeout: 30s
+  period: 10s
+
+packetbeat.protocols:
+{% if "icmp" in os_packetbeat_protocols %}
+- type: icmp
+  enabled: true
+{% endif %}
+{% if "amqp" in os_packetbeat_protocols %}
+- type: amqp
+  ports: [5672]
+{% endif %}
+{% if "cassandra" in os_packetbeat_protocols %}
+- type: cassandra
+  ports: [9042]
+{% endif %}
+{% if "dhcpv4" in os_packetbeat_protocols %}
+- type: dhcpv4
+  ports: [67, 68]
+{% endif %}
+{% if "dns" in os_packetbeat_protocols %}
+- type: dns
+  ports: [53]
+{% endif %}
+{% if "http" in os_packetbeat_protocols %}
+- type: http
+  ports: [80, 8080, 8000, 5000, 8002]
+{% endif %}
+{% if "memcache" in os_packetbeat_protocols %}
+- type: memcache
+  ports: [11211]
+{% endif %}
+{% if "mysql" in os_packetbeat_protocols %}
+- type: mysql
+  ports: [3306,3307]
+{% endif %}
+{% if "pgsql" in os_packetbeat_protocols %}
+- type: pgsql
+  ports: [5432]
+{% endif %}
+{% if "redis" in os_packetbeat_protocols %}
+- type: redis
+  ports: [6379]
+{% endif %}
+{% if "thrift" in os_packetbeat_protocols %}
+- type: thrift
+  ports: [9090]
+{% endif %}
+{% if "mongodb" in os_packetbeat_protocols %}
+- type: mongodb
+  ports: [27017]
+{% endif %}
+{% if "nfs" in os_packetbeat_protocols %}
+- type: nfs
+  ports: [2049]
+{% endif %}
+{% if "tls" in os_packetbeat_protocols %}
+- type: tls
+  ports: [443, 993, 995, 5223, 8443, 8883, 9243]
+{% endif %}
+
+{% if beats_output_type == 'elasticsearch' %}
+setup.template:
+  json.enabled: true
+  json.path: '/etc/packetbeat/packetbeat-template.json'
+  json.name: 'packetbeat'
+  overwrite: true
+setup.ilm.enabled: false
+setup.dashboards.enabled: true
+setup.kibana:
+  host: "{{ beats_kibana_host | list | random(seed=inventory_hostname) }}:{{ beats_kibana_port | default('5601') }}"
+  protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
+{% if beats_output_auth %}
+  kibana.name: "{{ beats_output_user | default('elastic') }}"
+  kibana.password: "{{ beats_output_pass | default('changeme') }}"
+{% endif %}
+  ssl:
+    supported_protocols: [TLSv1.2]
+    verification_mode: none
+{% endif %}
+
+output.{{ beats_output_type }}:
+  bulk_max_size: 1000
+{% if beats_output_type == 'elasticsearch' %}
+  protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
+{% if beats_output_auth %}
+  username: "{{ beats_output_user | default('elastic') }}"
+  password: "{{ beats_output_pass | default('changeme') }}"
+{% endif %}
+  ssl:
+    supported_protocols: [TLSv1.2]
+    verification_mode: none
+{% endif %}
+  hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
+  loadbalance: {% if beats_output_host | length > 1 %}true{% else %}false{% endif %}
+
+fields_under_root: true
+fields:
+  enviornment: {{ environments | default("ENV") | upper }}
+  datacenter: {{ datacenter | default("") | lower }}
+  domain: {{ domain | default("") | lower }}
+  group: {{ group_names[-1] | default("GROUP") | upper }}
+  source: {{ ansible_fqdn }}
+{% if tags is defined %}
+{% for key,value in tags.iteritems() %}
+  {{ key }}: {{ value }}
+{% endfor %}
+{% endif %}
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+logging.level: error
+logging.to_syslog: true
+
+http:
+  enabled: true
+  host: localhost
+  port: {{ beats_port_arg.http }}

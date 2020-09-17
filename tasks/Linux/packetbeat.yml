@@ -1,0 +1,24 @@
+---
+- name: Packetbeat main configuration file transfer
+  template:
+    src: '{{ item }}.j2'
+    dest: '/etc/packetbeat/{{ item }}'
+    backup: 'yes'
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
+  loop:
+    - 'packetbeat.yml'
+    - 'packetbeat-template.json'
+  register: beats_config
+
+- name: Packetbeat systemd configuration
+  lineinfile:
+    state: 'present'
+    dest: '/lib/systemd/system/packetbeat.service'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    insertafter: '\[Service\]'
+  with_items:
+    - { regexp: '^Restart',      line: 'Restart=on-failure' }
+    - { regexp: '^RestartSec',   line: 'RestartSec=30s' }

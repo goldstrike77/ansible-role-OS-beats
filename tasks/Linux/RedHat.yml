@@ -21,14 +21,6 @@
   retries: 3
   delay: 5
 
-- name: Clean the Beats metadata
-  command: 'yum clean all'
-
-- name: 'Remove Beat {{ beats_version.split(".")[0] }} YUM repositories'
-  yum_repository:
-    name: '{{ beats_repo_name }}'
-    state: 'absent'
-
 - name: Disable auditd service and ensure it is masked
   systemd:
     name: '{{ item }}'

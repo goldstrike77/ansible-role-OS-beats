@@ -56,6 +56,11 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### Auditbeat parameters
 * `auditbeat_audit_rules`: Specific audit rules list.
 
+# Packetbeat parameters #
+* `packetbeat_flows`: Configure flows to monitor network trafficedit.
+* `packetbeat_ignore_outgoing': Whether ignores all the transactions initiated from the server running Packetbeat.
+* `packetbeat_protocols`: Configure which transaction protocols to monitoredit.
+
 ##### Listen port
 * `beats_port_arg.http`: Port for Beats http.
 * `beats_port_arg.exporter`: Port for prometheus exporter.

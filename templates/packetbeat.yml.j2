@@ -1,67 +1,84 @@
 packetbeat.interfaces.device: {{ ansible_default_ipv4.alias }}
 packetbeat.interfaces.snaplen: {{ ansible_default_ipv4.mtu }}
 packetbeat.interfaces.type: af_packet
-packetbeat.interfaces.buffer_size_mb: 100
+packetbeat.interfaces.buffer_size_mb: 50
+packetbeat.ignore_outgoing: {{ packetbeat_ignore_outgoing | bool | to_json }}
 
+{% if packetbeat_flows | bool %}
 packetbeat.flows:
   timeout: 30s
   period: 10s
+{% endif %}
 
 packetbeat.protocols:
-{% if "icmp" in os_packetbeat_protocols %}
+{% if "icmp" in packetbeat_protocols %}
 - type: icmp
   enabled: true
 {% endif %}
-{% if "amqp" in os_packetbeat_protocols %}
+{% if "amqp" in packetbeat_protocols %}
 - type: amqp
+  enabled: true
   ports: [5672]
 {% endif %}
-{% if "cassandra" in os_packetbeat_protocols %}
+{% if "cassandra" in packetbeat_protocols %}
 - type: cassandra
+  enabled: true
   ports: [9042]
 {% endif %}
-{% if "dhcpv4" in os_packetbeat_protocols %}
+{% if "dhcpv4" in packetbeat_protocols %}
 - type: dhcpv4
+  enabled: true
   ports: [67, 68]
 {% endif %}
-{% if "dns" in os_packetbeat_protocols %}
+{% if "dns" in packetbeat_protocols %}
 - type: dns
+  enabled: true
   ports: [53]
 {% endif %}
-{% if "http" in os_packetbeat_protocols %}
+{% if "http" in packetbeat_protocols %}
 - type: http
+  enabled: true
   ports: [80, 8080, 8000, 5000, 8002]
+  real_ip_header: "X-Forwarded-For"
 {% endif %}
-{% if "memcache" in os_packetbeat_protocols %}
+{% if "memcache" in packetbeat_protocols %}
 - type: memcache
+  enabled: true
   ports: [11211]
 {% endif %}
-{% if "mysql" in os_packetbeat_protocols %}
+{% if "mysql" in packetbeat_protocols %}
 - type: mysql
+  enabled: true
   ports: [3306,3307]
 {% endif %}
-{% if "pgsql" in os_packetbeat_protocols %}
+{% if "pgsql" in packetbeat_protocols %}
 - type: pgsql
+  enabled: true
   ports: [5432]
 {% endif %}
-{% if "redis" in os_packetbeat_protocols %}
+{% if "redis" in packetbeat_protocols %}
 - type: redis
+  enabled: true
   ports: [6379]
 {% endif %}
-{% if "thrift" in os_packetbeat_protocols %}
+{% if "thrift" in packetbeat_protocols %}
 - type: thrift
+  enabled: true
   ports: [9090]
 {% endif %}
-{% if "mongodb" in os_packetbeat_protocols %}
+{% if "mongodb" in packetbeat_protocols %}
 - type: mongodb
+  enabled: true
   ports: [27017]
 {% endif %}
-{% if "nfs" in os_packetbeat_protocols %}
+{% if "nfs" in packetbeat_protocols %}
 - type: nfs
+  enabled: true
   ports: [2049]
 {% endif %}
-{% if "tls" in os_packetbeat_protocols %}
+{% if "tls" in packetbeat_protocols %}
 - type: tls
+  enabled: true
   ports: [443, 993, 995, 5223, 8443, 8883, 9243]
 {% endif %}
 
@@ -114,9 +131,9 @@ fields:
 {% endif %}
 
 processors:
+  - add_id: ~
   - add_host_metadata: ~
   - add_cloud_metadata: ~
-  - add_docker_metadata: ~
 
 logging.level: error
 logging.to_syslog: true

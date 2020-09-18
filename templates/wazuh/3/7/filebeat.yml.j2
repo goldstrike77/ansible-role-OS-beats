@@ -24,6 +24,9 @@ output.{{ beats_output_type }}:
     supported_protocols: [TLSv1.2, TLSv1.3]
     verification_mode: none
 
+processors:
+  - add_id: ~
+
 logging.level: warning
 logging.to_syslog: true
 http:

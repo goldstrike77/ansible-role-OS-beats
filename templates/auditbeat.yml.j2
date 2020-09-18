@@ -104,9 +104,9 @@ fields:
 {% endif %}
 
 processors:
+  - add_id: ~
   - add_host_metadata: ~
   - add_cloud_metadata: ~
-  - add_docker_metadata: ~
 
 logging.level: error
 logging.to_syslog: true

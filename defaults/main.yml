@@ -14,6 +14,15 @@ auditbeat_audit_rules: # Specific audit rules list.
   - '-w /sbin/insmod -p x -k modules'
   - '-w /sbin/rmmod -p x -k modules'
 
+# Packetbeat parameters #
+packetbeat_flows: false # Configure flows to monitor network trafficedit.
+packetbeat_ignore_outgoing: false # Whether ignores all the transactions initiated from the server running Packetbeat.
+packetbeat_protocols: # Configure which transaction protocols to monitoredit.
+  - 'icmp'
+  - 'http'
+  - 'dns'
+  - 'tls'
+
 # Listen port #
 beats_port_arg:
   http: '5066' # Port for Beats http.

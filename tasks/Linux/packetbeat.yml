@@ -19,6 +19,6 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
     insertafter: '\[Service\]'
-  with_items:
+  loop:
     - { regexp: '^Restart',      line: 'Restart=on-failure' }
     - { regexp: '^RestartSec',   line: 'RestartSec=30s' }

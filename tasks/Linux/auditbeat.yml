@@ -19,6 +19,18 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
     insertafter: '\[Service\]'
-  with_items:
+  loop:
     - { regexp: '^Restart',      line: 'Restart=on-failure' }
     - { regexp: '^RestartSec',   line: 'RestartSec=30s' }
+
+- name: Disable auditd service and ensure it is masked
+  systemd:
+    name: '{{ item }}'
+    enabled: 'no'
+    state: 'stopped'
+    masked: 'yes'
+  loop:
+    - 'auditd.service'
+    - 'systemd-journald-audit.socket'
+  changed_when: false
+  failed_when: false

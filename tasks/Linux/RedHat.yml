@@ -20,16 +20,3 @@
   until: beats_update is succeeded
   retries: 3
   delay: 5
-
-- name: Disable auditd service and ensure it is masked
-  systemd:
-    name: '{{ item }}'
-    enabled: 'no'
-    state: 'stopped'
-    masked: 'yes'
-  loop:
-    - 'auditd.service'
-    - 'systemd-journald-audit.socket'
-  when: beats_type == 'audit'
-  changed_when: false
-  failed_when: false

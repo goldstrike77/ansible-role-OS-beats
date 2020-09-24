@@ -1,7 +1,7 @@
 ---
 # General parameters #
 beats_is_install: false # A boolean value, whether install the Beats.
-beats_version: '7.8.1' # Specify the Beats.
+beats_version: '7.9.1' # Specify the Beats.
 beats_type: 'file' # Which kinds of beats are installs.
 beats_rotate_day: '180' # Specify the logs retention days.
 

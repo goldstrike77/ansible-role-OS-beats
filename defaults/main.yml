@@ -18,7 +18,6 @@ auditbeat_audit_rules: # Specific audit rules list.
 packetbeat_flows: false # Configure flows to monitor network trafficedit.
 packetbeat_ignore_outgoing: false # Whether ignores all the transactions initiated from the server running Packetbeat.
 packetbeat_protocols: # Configure which transaction protocols to monitoredit.
-  - 'icmp'
   - 'http'
   - 'dns'
   - 'tls'

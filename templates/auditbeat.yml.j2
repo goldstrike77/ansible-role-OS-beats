@@ -95,7 +95,8 @@ fields:
   enviornment: {{ environments | default("ENV") | upper }}
   datacenter: {{ datacenter | default("") | lower }}
   domain: {{ domain | default("") | lower }}
-  group: {{ group_names[-1] | default("GROUP") | upper }}
+  project: {{ group_names[0] | default("PROJECT") | title | regex_replace("_", "-") }}
+  group: {{ group_names[-1] | default("GROUP") | title | regex_replace("_", "-") }}
   source: {{ ansible_fqdn }}
 {% if tags is defined %}
 {% for key,value in tags.iteritems() %}

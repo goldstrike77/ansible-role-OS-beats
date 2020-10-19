@@ -18,5 +18,5 @@
     disable_gpg_check: 'yes'
   register: beats_update
   until: beats_update is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2

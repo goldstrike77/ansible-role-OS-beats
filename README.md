@@ -80,6 +80,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `environments`: Define the service environment.
 * `datacenter`: Define the DataCenter.
 * `domain`: Define the Domain.
+* `customer`: Define the customer name.
 * `tags`: Define the service custom label.
 * `exporter_is_install`: Whether to install prometheus exporter.
 * `consul_public_register`: Whether register a exporter service with public consul client.
@@ -109,14 +110,14 @@ Including an example of how to use your role (for instance, with variables passe
 - hosts: all
   roles:
      - role: ansible-role-OS-beats
-       beats_version: '7.9.2'
+       beats_version: '7.9.3'
 ```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
-beats_version: '7.9.2'
+beats_version: '7.9.3'
 beats_type: 'file'
 beats_rotate_day: '180'
 filebeat_configset: 'wazuh'
@@ -134,9 +135,10 @@ beats_output_pass: 'changeme'
 beats_output_user: 'elastic'
 beats_kibana_host: '{{ beats_output_host }}'
 beats_kibana_port: '5601'
-environments: 'Development'
+environments: 'prd'
 datacenter: 'dc01'
 domain: 'local'
+customer: 'demo'
 tags:
   subscription: 'default'
   owner: 'nobody'

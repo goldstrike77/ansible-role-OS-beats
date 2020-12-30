@@ -1,7 +1,7 @@
 ---
 # General parameters #
 beats_is_install: false # A boolean value, whether install the Beats.
-beats_version: '7.9.2' # Specify the Beats.
+beats_version: '7.9.3' # Specify the Beats.
 beats_type: 'file' # Which kinds of beats are installs.
 beats_rotate_day: '180' # Specify the logs retention days.
 
@@ -40,9 +40,10 @@ beats_kibana_host: '{{ beats_output_host }}' # The list of kibana endpoints.
 beats_kibana_port: '5601' # Listening port for Kibana.
 
 # Service Mesh #
-environments: 'Development' # Define the service environment.
+environments: 'prd' # Define the service environment.
 datacenter: 'dc01' # Define the DataCenter.
 domain: 'local' # Define the Domain.
+customer: 'demo' # Define the customer name.
 #tags: # Define the service custom label.
 #  subscription: 'default'
 #  owner: 'nobody'

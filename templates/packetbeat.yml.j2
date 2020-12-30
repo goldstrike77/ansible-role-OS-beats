@@ -119,11 +119,12 @@ output.{{ beats_output_type }}:
 
 fields_under_root: true
 fields:
-  enviornment: {{ environments | default("ENV") | upper }}
+  enviornment: {{ environments | default("prd") | lower }}
   datacenter: {{ datacenter | default("") | lower }}
   domain: {{ domain | default("") | lower }}
-  project: {{ group_names[0] | default("PROJECT") | title | regex_replace("_", "-") }}
-  group: {{ group_names[-1] | default("GROUP") | title | regex_replace("_", "-") }}
+  customer: {{ customer | default("Customer") | title | regex_replace("_", "-") }}
+  project: {{ group_names[-1] | default("PROJECT") | title | regex_replace("_", "-") }}
+  group: {{ group_names[0] | default("GROUP") | title | regex_replace("_", "-") }}
   source: {{ ansible_fqdn }}
 {% if tags is defined %}
 {% for key,value in tags.iteritems() %}

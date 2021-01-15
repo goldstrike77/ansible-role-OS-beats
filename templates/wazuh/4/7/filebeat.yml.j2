@@ -1,0 +1,32 @@
+# Wazuh - Filebeat configuration file
+filebeat.modules:
+  - module: wazuh
+    alerts:
+      enabled: true
+    archives:
+      enabled: false
+
+setup.template.json.enabled: true
+setup.template.json.path: '/etc/filebeat/wazuh-template.json'
+setup.template.json.name: 'wazuh'
+setup.template.overwrite: true
+setup.ilm.enabled: false
+
+output.{{ beats_output_type }}:
+  hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']
+  loadbalance: true
+  protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
+{% if beats_output_auth %}
+  username: "{{ beats_output_user }}"
+  password: "{{ beats_output_pass }}"
+{% endif %}
+  ssl:
+    supported_protocols: [TLSv1.2, TLSv1.3]
+    verification_mode: none
+
+logging.level: warning
+logging.to_syslog: true
+http:
+  enabled: true
+  host: localhost
+  port: {{ beats_port_arg.http }}

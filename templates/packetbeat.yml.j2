@@ -91,7 +91,7 @@ setup.template:
 setup.ilm.enabled: false
 setup.dashboards.enabled: true
 setup.kibana:
-  host: "{{ beats_kibana_host | list | random(seed=inventory_hostname) }}:{{ beats_kibana_port | default('5601') }}"
+  host: "{{ beats_kibana_host | list | random(seed=ansible_hostname) }}:{{ beats_kibana_port | default('5601') }}"
   protocol: "{% if beats_output_auth | bool and beats_output_https | bool %}https{% else %}http{% endif %}"
 {% if beats_output_auth %}
   kibana.name: "{{ beats_output_user | default('elastic') }}"

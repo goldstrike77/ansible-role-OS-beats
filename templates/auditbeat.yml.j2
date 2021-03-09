@@ -62,6 +62,7 @@ setup.template:
   json.name: 'auditbeat'
   overwrite: true
 setup.ilm.enabled: false
+setup.ilm.check_exists: false
 setup.dashboards.enabled: true
 setup.kibana:
   host: "{{ beats_kibana_host | list | random(seed=ansible_hostname) }}:{{ beats_kibana_port | default('5601') }}"

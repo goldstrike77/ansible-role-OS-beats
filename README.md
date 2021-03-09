@@ -24,6 +24,7 @@ __Table of Contents__
 - [License](#license)
 - [Author Information](#author-information)
 - [Contributors](#Contributors)
+- [Donations](#Donations)
 
 ## Overview
 The Beats are lightweight data shippers, that you install on your servers to capture all sorts of operational data (think of logs, metrics, or network packet data). The Beats send the operational data to Elasticsearch, either directly or via Logstash, so it can be visualized with Kibana.
@@ -46,6 +47,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### General parameters
 * `beats_version`: Specify the Beats.
+* `beats_dist`: Specify the distribution of Beats, oss or basic.
 * `beats_type`: Which kinds of beats are installs.
 * `beats_rotate_day`: Specify the logs retention days.
 
@@ -58,7 +60,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 # Packetbeat parameters #
 * `packetbeat_flows`: Configure flows to monitor network trafficedit.
-* `packetbeat_ignore_outgoing': Whether ignores all the transactions initiated from the server running Packetbeat.
+* `packetbeat_ignore_outgoing`: Whether ignores all the transactions initiated from the server running Packetbeat.
 * `packetbeat_protocols`: Configure which transaction protocols to monitoredit.
 
 ##### Listen port
@@ -101,7 +103,7 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' beats_version='6.8.1'
+    node01 ansible_host='192.168.1.10' beats_version='7.10.2'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -110,14 +112,15 @@ Including an example of how to use your role (for instance, with variables passe
 - hosts: all
   roles:
      - role: ansible-role-OS-beats
-       beats_version: '7.9.3'
+       beats_version: '7.10.2'
 ```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
-beats_version: '7.9.3'
+beats_version: '7.10.2'
+beats_dist: 'basic'
 beats_type: 'file'
 beats_rotate_day: '180'
 filebeat_configset: 'wazuh'
@@ -162,3 +165,8 @@ Please send your suggestions to make this role better.
 
 ## Contributors
 Special thanks to the [Connext Information Technology](http://www.connext.com.cn) for their contributions to this role.
+
+## Donations
+Please donate to the following monero address.
+
+    46CHVMbb6wQV2PJYEbahb353SYGqXhcdFQVEWdCnHb6JaR5125h3kNQ6bcqLye5G7UF7qz6xL9qHLDSAY3baagfmLZABz75

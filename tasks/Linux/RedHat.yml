@@ -1,18 +1,18 @@
 ---
-- name: 'Add Beat {{ beats_version.split(".")[0] }} YUM repositories'
+- name: 'Add Beats YUM repositories'.
   yum_repository:
-    name: '{{ beats_repo_name }}'
-    description: '{{ beats_repo_name }} YUM repository'
-    file: '{{ beats_repo_name }}'
-    baseurl: '{{ beats_repo_url }}'
+    name: 'elasticsearch'
+    description: 'Elasticsearch YUM repository'
+    file: 'elasticsearch'
+    baseurl: '{{ vars['beats_' + beats_dist + '_repo_url'] }}'
     gpgcheck: 'no'
     timeout: '60'
 
-- name: Install the Beat packages
+- name: Install the Beat packages.
   yum:
     name: '{{ beats_packages }}'
     state: 'present'
-    enablerepo: '{{ beats_repo_name }}'
+    enablerepo: 'elasticsearch'
     validate_certs: 'no'
     update_cache: 'yes'
     disable_gpg_check: 'yes'

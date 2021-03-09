@@ -11,6 +11,7 @@ setup.template.json.path: '/etc/filebeat/wazuh-template.json'
 setup.template.json.name: 'wazuh'
 setup.template.overwrite: true
 setup.ilm.enabled: false
+setup.ilm.check_exists: false
 
 output.{{ beats_output_type }}:
   hosts: ['{{ beats_output_host | list | join(":" + beats_output_port + "', '") }}:{{ beats_output_port }}']

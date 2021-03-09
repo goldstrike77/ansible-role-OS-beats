@@ -28,6 +28,7 @@ auditbeat.modules:
   include_files: []
   recursive: true
 
+{% if beats_dist != "oss"%}
 - module: system
   datasets:
     - package
@@ -51,6 +52,7 @@ auditbeat.modules:
   user.detect_password_changes: true
   login.wtmp_file_pattern: /var/log/wtmp*
   login.btmp_file_pattern: /var/log/btmp*
+{% endif %}
 
 queue.mem:
   events: 32768

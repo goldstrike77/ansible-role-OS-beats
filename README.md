@@ -46,9 +46,10 @@ The following list of supported the Beats releases:
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
 
 ##### General parameters
-* `beats_version`: Specify the Beats.
+* `beats_version`: Specify the Beats version.
 * `beats_dist`: Specify the distribution of Beats, oss or basic.
 * `beats_type`: Which kinds of beats are installs.
+* `beats_dashboard`: A boolean to determine whether or not to enable dashboard loading.
 * `beats_rotate_day`: Specify the logs retention days.
 
 ##### Filebeat parameters
@@ -122,6 +123,7 @@ You can also use the group_vars or the host_vars files for setting the variables
 beats_version: '7.10.2'
 beats_dist: 'basic'
 beats_type: 'file'
+beats_dashboard: false
 beats_rotate_day: '180'
 filebeat_configset: 'wazuh'
 filebeat_configver: '3'

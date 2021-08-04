@@ -6,6 +6,7 @@
     file: 'elasticsearch'
     baseurl: '{{ beats_basic_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
   when: beats_dist == "basic"
 
@@ -16,6 +17,7 @@
     file: 'elasticsearch'
     baseurl: '{{ beats_oss_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
   when: beats_dist == "oss"
 

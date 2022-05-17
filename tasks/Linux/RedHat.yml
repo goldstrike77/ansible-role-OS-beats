@@ -23,12 +23,14 @@
 
 - name: Install the Beat packages.
   yum:
-    name: '{{ beats_packages }}'
+    name: '{{ item.name }}'
     state: 'present'
     enablerepo: 'elasticsearch-{{ beats_dist }}'
     validate_certs: 'no'
     update_cache: 'yes'
     disable_gpg_check: 'yes'
+  loop: '{{ beats_packages }}'
+  when: item.create | default(true) | bool
   register: beats_update
   until: beats_update is succeeded
   retries: 5

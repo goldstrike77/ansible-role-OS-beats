@@ -1,9 +1,10 @@
 ---
-beats_basic_repo_url: "http://mirrors.tuna.tsinghua.edu.cn/elasticstack/{{ beats_version.split('.')[0] }}.x/yum/"
+beats_basic_repo_url: "http://mirrors.aliyun.com/elasticstack/{{ beats_version.split('.')[0] }}.x/yum/"
 
 beats_oss_repo_url: "http://cache.omygods.com/elasticsearch-{{ beats_version.split('.')[0] }}.x/"
 
 beats_packages:
-  - '{{ beats_type }}beat-{{ beats_version }}-1'
-  - 'libselinux-utils'
-  - 'policycoreutils-python'
+  - { name: '{{ beats_type }}beat-{{ beats_version }}-1' }
+  - { name: 'libselinux-utils' }
+  - { name: 'policycoreutils-python', create: '{{ ansible_distribution_major_version | int == 7 }}' }
+  - { name: 'policycoreutils-python-utils', create: '{{ ansible_distribution_major_version | int == 8 }}' }

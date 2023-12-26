@@ -1,51 +1,51 @@
 ---
 # General parameters #
 beats_is_install: false # A boolean to determine whether or install the Beats.
-beats_version: '7.10.2' # Specify the Beats version.
-beats_dist: 'basic' # Specify the distribution of Beats, oss or basic.
-beats_type: 'file' # Which kinds of beats are installs.
+beats_version: "7.10.2" # Specify the Beats version.
+beats_dist: "basic" # Specify the distribution of Beats, oss or basic.
+beats_type: "file" # Which kinds of beats are installs.
 beats_dashboard: false # A boolean to determine whether or not to enable dashboard loading.
-beats_rotate_day: '180' # Specify the logs retention days.
+beats_rotate_day: "180" # Specify the logs retention days.
 
 # Filebeat parameters #
-filebeat_configset: 'wazuh' # Specific configuration set by instances of this.
-filebeat_configver: '3' # Specific configuration set versions.
+filebeat_configset: "wazuh" # Specific configuration set by instances of this.
+filebeat_configver: "3" # Specific configuration set versions.
 
 # Auditbeat parameters #
 auditbeat_audit_rules: # Specific audit rules list.
-  - '-w /sbin/insmod -p x -k modules'
-  - '-w /sbin/rmmod -p x -k modules'
+  - "-w /sbin/insmod -p x -k modules"
+  - "-w /sbin/rmmod -p x -k modules"
 
 # Packetbeat parameters #
 packetbeat_flows: false # Configure flows to monitor network trafficedit.
 packetbeat_ignore_outgoing: false # Whether ignores all the transactions initiated from the server running Packetbeat.
 packetbeat_protocols: # Configure which transaction protocols to monitoredit.
-  - 'http'
-  - 'dns'
-  - 'tls'
+  - "http"
+  - "dns"
+  - "tls"
 
 # Listen port #
 beats_port_arg:
-  http: '5066' # Port for Beats http.
-  exporter: '9479' # Port for prometheus exporter.
+  http: "5066" # Port for Beats http.
+  exporter: "9479" # Port for prometheus exporter.
 
 # Output Variables #
-beats_output_type: 'elasticsearch' # Configure what output to use when sending the data collected by the Beats.
+beats_output_type: "elasticsearch" # Configure what output to use when sending the data collected by the Beats.
 beats_output_https: true # A boolean value, whether Encrypting HTTP client communications.
-beats_output_host: # The list of known servers to connect to. 
-  - '127.0.0.1'
-beats_output_port: '9200' # Servers communication port.
+beats_output_host: # The list of known servers to connect to.
+  - "127.0.0.1"
+beats_output_port: "9200" # Servers communication port.
 beats_output_auth: true # A boolean value, Enable or Disable authentication.
-beats_output_pass: 'changeme' # Authenticated password.
-beats_output_user: 'elastic' # Authenticated user.
-beats_kibana_host: '{{ beats_output_host }}' # The list of kibana endpoints.
-beats_kibana_port: '5601' # Listening port for Kibana.
+beats_output_pass: "changeme" # Authenticated password.
+beats_output_user: "elastic" # Authenticated user.
+beats_kibana_host: "{{ beats_output_host }}" # The list of kibana endpoints.
+beats_kibana_port: "5601" # Listening port for Kibana.
 
 # Service Mesh #
-environments: 'prd' # Define the service environment.
-datacenter: 'dc01' # Define the DataCenter.
-domain: 'local' # Define the Domain.
-customer: 'demo' # Define the customer name.
+environments: "prd" # Define the service environment.
+datacenter: "dc01" # Define the DataCenter.
+domain: "local" # Define the Domain.
+customer: "demo" # Define the customer name.
 #tags: # Define the service custom label.
 #  subscription: 'default'
 #  owner: 'nobody'
@@ -54,8 +54,8 @@ customer: 'demo' # Define the customer name.
 #  region: 'China'
 exporter_is_install: false # Whether to install prometheus exporter.
 consul_public_register: false # Whether register a exporter service with public consul client.
-consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Public Consul client ACL token.
-consul_public_http_port: '8500' # The consul HTTP API port.
-consul_public_http_prot: 'https' # The consul Hypertext Transfer Protocol.
+consul_public_exporter_token: "00000000-0000-0000-0000-000000000000" # Public Consul client ACL token.
+consul_public_http_port: "8500" # The consul HTTP API port.
+consul_public_http_prot: "https" # The consul Hypertext Transfer Protocol.
 consul_public_clients: # List of public consul clients.
-  - '127.0.0.1'
+  - "127.0.0.1"

@@ -1,22 +1,22 @@
 ---
-- name: Filebeat main configuration file transfer
+- name: Filebeat main configuration file transfer.
   template:
     src: '{{ filebeat_configset }}/{{ filebeat_configver }}/{{ beats_version.split(".")[0] }}/{{ item }}.j2'
-    dest: '/etc/filebeat/{{ item }}'
-    backup: 'yes'
-    owner: 'root'
-    group: 'root'
-    mode: '0640'
+    dest: "/etc/filebeat/{{ item }}"
+    backup: "yes"
+    owner: "root"
+    group: "root"
+    mode: "0640"
   loop:
-    - 'wazuh-template.json'
-    - 'filebeat.yml'
+    - "wazuh-template.json"
+    - "filebeat.yml"
   register: beats_config
 
-- name: Wazuh module transfer
+- name: Wazuh module transfer.
   copy:
-    src: 'module/wazuh'
-    dest: '/usr/share/filebeat/module'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
+    src: "module/wazuh"
+    dest: "/usr/share/filebeat/module"
+    owner: "root"
+    group: "root"
+    mode: "0755"
   when: beats_version.split(".")[0] | int > 6

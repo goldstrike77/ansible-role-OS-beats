@@ -1,7 +1,7 @@
 ---
 beats_basic_repo_url: "http://mirrors.aliyun.com/elasticstack/{{ beats_version.split('.')[0] }}.x/yum/"
 
-beats_oss_repo_url: "http://cache.omygods.com/elasticsearch-{{ beats_version.split('.')[0] }}.x/"
+beats_oss_repo_url: "http://artifacts.elastic.co/packages/oss-{{ beats_version.split('.')[0] }}.x/yum/"
 
 beats_packages:
   - { name: '{{ beats_type }}beat-{{ beats_version }}-1' }

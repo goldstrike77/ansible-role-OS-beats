@@ -1,16 +1,16 @@
 ---
-- name: Gathering service facts
+- name: Gathering service facts.
   service_facts:
   register: services_state
 
-- name: Allow Beat service port
+- name: Allow Beat service port.
   firewalld:
-    port: '{{ item.value }}/tcp'
-    zone: 'public'
-    permanent: 'true'
-    immediate: 'true'
-    state: 'enabled'
-  loop: '{{ beats_port_arg | dict2items }}'
+    port: "{{ item.value }}/tcp"
+    zone: "public"
+    permanent: "true"
+    immediate: "true"
+    state: "enabled"
+  loop: "{{ beats_port_arg | dict2items }}"
   when:
     - services_state.ansible_facts.services["firewalld.service"] is defined
     - services_state.ansible_facts.services["firewalld.service"].state == 'running'

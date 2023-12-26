@@ -1,35 +1,35 @@
 ---
 - name: Add Beats YUM repositories.
   yum_repository:
-    name: 'elasticsearch-basic'
-    description: 'Elasticsearch YUM repository'
-    file: 'elasticsearch'
-    baseurl: '{{ beats_basic_repo_url }}'
-    gpgcheck: 'no'
-    sslverify: 'no'
-    timeout: '60'
+    name: "elasticsearch-basic"
+    description: "Elasticsearch YUM repository"
+    file: "elasticsearch"
+    baseurl: "{{ beats_basic_repo_url }}"
+    gpgcheck: "no"
+    sslverify: "no"
+    timeout: "60"
   when: beats_dist == "basic"
 
 - name: Add Beats YUM repositories.
   yum_repository:
-    name: 'elasticsearch-oss'
-    description: 'Elasticsearch YUM repository'
-    file: 'elasticsearch'
-    baseurl: '{{ beats_oss_repo_url }}'
-    gpgcheck: 'no'
-    sslverify: 'no'
-    timeout: '60'
+    name: "elasticsearch-oss"
+    description: "Elasticsearch YUM repository"
+    file: "elasticsearch"
+    baseurl: "{{ beats_oss_repo_url }}"
+    gpgcheck: "no"
+    sslverify: "no"
+    timeout: "60"
   when: beats_dist == "oss"
 
 - name: Install the Beat packages.
   yum:
-    name: '{{ item.name }}'
-    state: 'present'
-    enablerepo: 'elasticsearch-{{ beats_dist }}'
-    validate_certs: 'no'
-    update_cache: 'yes'
-    disable_gpg_check: 'yes'
-  loop: '{{ beats_packages }}'
+    name: "{{ item.name }}"
+    state: "present"
+    enablerepo: "elasticsearch-{{ beats_dist }}"
+    validate_certs: "no"
+    update_cache: "yes"
+    disable_gpg_check: "yes"
+  loop: "{{ beats_packages }}"
   when: item.create | default(true) | bool
   register: beats_update
   until: beats_update is succeeded

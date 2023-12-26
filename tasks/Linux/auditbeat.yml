@@ -1,36 +1,36 @@
 ---
-- name: Auditbeat main configuration file transfer
+- name: Auditbeat main configuration file transfer.
   template:
-    src: '{{ item }}.j2'
-    dest: '/etc/auditbeat/{{ item }}'
-    backup: 'yes'
-    owner: 'root'
-    group: 'root'
-    mode: '0640'
+    src: "{{ item }}.j2"
+    dest: "/etc/auditbeat/{{ item }}"
+    backup: "yes"
+    owner: "root"
+    group: "root"
+    mode: "0640"
   loop:
-    - 'auditbeat.yml'
-    - 'auditbeat-template.json'
+    - "auditbeat.yml"
+    - "auditbeat-template.json"
   register: beats_config
 
-- name: Auditbeat systemd configuration
+- name: Auditbeat systemd configuration.
   lineinfile:
-    state: 'present'
-    dest: '/lib/systemd/system/auditbeat.service'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
+    state: "present"
+    dest: "/lib/systemd/system/auditbeat.service"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
     insertafter: '\[Service\]'
   loop:
-    - { regexp: '^Restart',      line: 'Restart=on-failure' }
-    - { regexp: '^RestartSec',   line: 'RestartSec=30s' }
+    - { regexp: "^Restart", line: "Restart=on-failure" }
+    - { regexp: "^RestartSec", line: "RestartSec=30s" }
 
-- name: Disable auditd service and ensure it is masked
+- name: Disable auditd service and ensure it is masked.
   systemd:
-    name: '{{ item }}'
-    enabled: 'no'
-    state: 'stopped'
-    masked: 'yes'
+    name: "{{ item }}"
+    enabled: "no"
+    state: "stopped"
+    masked: "yes"
   loop:
-    - 'auditd.service'
-    - 'systemd-journald-audit.socket'
+    - "auditd.service"
+    - "systemd-journald-audit.socket"
   changed_when: false
   failed_when: false

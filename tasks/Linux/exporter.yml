@@ -1,37 +1,37 @@
 ---
-- name: Beats exporter program binary transfer
+- name: Beats exporter program binary transfer.
   unarchive:
-    src: 'beat-exporter-0.4.0-linux-{{ architecture[ansible_architecture] }}.tar.gz'
-    dest: '/usr/local/bin/'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
+    src: "beat-exporter-0.4.0-linux-{{ architecture[ansible_architecture] }}.tar.gz"
+    dest: "/usr/local/bin/"
+    owner: "root"
+    group: "root"
+    mode: "0755"
     exclude:
-      - 'LICENSE'
+      - "LICENSE"
   register: beats_exporter_update
 
-- name: Beats exporter configure file transfer
+- name: Beats exporter configure file transfer.
   template:
-    src: 'beat_exporter.j2'
-    dest: '/etc/default/{{ beats_type }}beat_exporter'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
+    src: "beat_exporter.j2"
+    dest: "/etc/default/{{ beats_type }}beat_exporter"
+    owner: "root"
+    group: "root"
+    mode: "0644"
   register: beats_exporter_config
 
-- name: Beats service file transfer
+- name: Beats service file transfer.
   template:
-    src: 'beat_exporter.service'
-    dest: '/lib/systemd/system/{{ beats_type }}beat_exporter.service'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
+    src: "beat_exporter.service"
+    dest: "/lib/systemd/system/{{ beats_type }}beat_exporter.service"
+    owner: "root"
+    group: "root"
+    mode: "0644"
   register: beats_systemd_update
 
-- name: Reloading the Beats exporter service
+- name: Reloading the Beats exporter service.
   systemd:
-    name: '{{ beats_type }}beat_exporter.service'
-    enabled: 'yes'
-    state: 'restarted'
-    daemon_reload: 'yes'
+    name: "{{ beats_type }}beat_exporter.service"
+    enabled: "yes"
+    state: "restarted"
+    daemon_reload: "yes"
   when: beats_exporter_update is changed or beats_exporter_config is changed or beats_systemd_update is changed
